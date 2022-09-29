@@ -4,15 +4,97 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5;
+    public float speed = 5f;
+    public float jumpForce = 3f;
+
+    //Mario Horizontal Movement
+    private Rigidbody2D marioRigidBody;
+    private float horizontalInput;
+    private Vector3 marioYRotation = new Vector3(0,180,0);
+
+    //Booleans
+    private bool isOnGround;
+    private bool jump;
+
+    //Animator
+    private Animator marioAnimator;
+
+    //Testing Variables
+
+
 
     void Start()
     {
-        
+        marioRigidBody = GetComponent<Rigidbody2D>();
+        marioAnimator = GetComponent<Animator>();
+
+        isOnGround = true;
+        jump = false;
     }
 
     void Update()
     {
-        
+        marioAnimator.SetBool("isOnGround", isOnGround);
+        marioAnimator.SetBool("isJumping", !isOnGround);
+
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        MarioIsWalking();
+
+        if(horizontalInput > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        if(horizontalInput < 0)
+        {
+            transform.rotation = Quaternion.Euler(marioYRotation);
+        }
+
+        if(Input.GetButtonDown("Jump") && isOnGround == true)
+        {
+            isOnGround = false;
+            jump = true;
+        }
+
+        if(isOnGround == true && horizontalInput == 0) //Si estoy en el suelo quieto frena y quedate quieto
+        {
+            marioRigidBody.velocity = Vector2.zero;
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            gameObject.transform.position = new Vector3(-6.49f,-3.74f,0);
+            Debug.Log("Teleport");
+        }
     }
+
+    private void FixedUpdate()
+    {
+        marioRigidBody.AddForce(Vector2.right * speed * horizontalInput * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        if(jump)
+        {
+            jump = false;
+            marioRigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+    }
+
+    private void MarioIsWalking()
+    {
+        if(isOnGround == true && horizontalInput != 0)
+        {
+            marioAnimator.SetBool("isMoving", true);
+        }
+        else
+        {
+            marioAnimator.SetBool("isMoving", false);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D otherCollider2D)
+    {
+        if(otherCollider2D.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true;
+        }
+    }
+
 }
