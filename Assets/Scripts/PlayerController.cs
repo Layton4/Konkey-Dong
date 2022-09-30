@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5f;
-    public float jumpForce = 3f;
+    public float speed = 10f;
+    public float airspeed = 5f;
+    public float jumpForce = 4f;
 
     //Mario Horizontal Movement
     private Rigidbody2D marioRigidBody;
-    private float horizontalInput;
+    public float horizontalInput;
     private Vector3 marioYRotation = new Vector3(0,180,0);
 
     //Booleans
@@ -69,7 +70,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        marioRigidBody.AddForce(Vector2.right * speed * horizontalInput * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        if(isOnGround)
+        {
+            marioRigidBody.AddForce(Vector2.right * speed * horizontalInput * Time.fixedDeltaTime, ForceMode2D.Impulse);
+            //marioRigidBody.velocity = Vector2.right * speed * horizontalInput * Time.deltaTime;
+        }
+
+        else
+        {
+            marioRigidBody.velocity = new Vector2(Mathf.Lerp(marioRigidBody.velocity.x, airspeed * horizontalInput,1f), marioRigidBody.velocity.y);
+        }
         
         if(jump)
         {
