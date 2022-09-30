@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         marioRigidBody.AddForce(Vector2.right * speed * horizontalInput * Time.fixedDeltaTime, ForceMode2D.Impulse);
+        
         if(jump)
         {
             jump = false;
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
         if(otherCollider2D.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+            marioRigidBody.velocity = Vector2.zero;
         }
     }
 
