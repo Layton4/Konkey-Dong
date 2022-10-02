@@ -49,35 +49,17 @@ public class PlayerController : MonoBehaviour
         marioAnimator.SetBool("isOnGround", isOnGround);
         marioAnimator.SetBool("isJumping", !isOnGround);
 
-        if(isClimbing)
-        {
-            if(Input.GetButtonDown("Vertical"))
-            {
-                isOnGround = false;
-            }
-            moveDirection.y = Input.GetAxisRaw("Vertical") * movingSpeed;
-        }
-
-        else if (Input.GetButtonDown("Jump") && isOnGround == true)
-        {
-            isOnGround = false;
-            jump = true;
-            moveDirection = Vector2.up * jumpForce; //This movement then we see in Fixed Update that it will move from the ground to the max high gradually
-        }
-        
-        else if (!jump && !isOnGround) //When we have jumped and we are not touching the ground we fall down with gravity
-        {
-            moveDirection += Physics2D.gravity * Time.deltaTime;
-        }
+        MarioDirectionY(); //Function to control the directionY of Mario
 
         #region Movement Tutorial Test
 
         horizontalInput = Input.GetAxisRaw("Horizontal");
         MarioIsWalking();
+
         moveDirection.x = horizontalInput * movingSpeed; //This is the velocity we want for mario when he moves during the game, saved on the first element of a vector2
-        //moveDirection.y = 
         #endregion
 
+        //Esto está bien
         #region Mario Rotation
         if (horizontalInput > 0)
         {
@@ -87,7 +69,7 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(marioYRotation);
         }
-        #endregion
+        #endregion 
 
         #region Tests Zone
         if (isOnGround == true && horizontalInput == 0) //Si estoy en el suelo quieto frena y quedate quieto
@@ -105,23 +87,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        #region Javi Movement Idea
-        /*if (isOnGround)
-        {
-            marioRigidBody.AddForce(Vector2.right * speed * horizontalInput * Time.fixedDeltaTime, ForceMode2D.Impulse);
-        }
-
-        else
-        {
-            marioRigidBody.velocity = new Vector2(Mathf.Lerp(marioRigidBody.velocity.x, airspeed * horizontalInput,1f), marioRigidBody.velocity.y);
-        }
-        */
-        #endregion
-
         if (jump) //When the jumpKey is pressed mario do this action once
         {
             jump = false;
-            //marioRigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
         //Tutorial Movement Test
@@ -140,6 +108,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void MarioDirectionY()
+    {
+        if (isClimbing) //To use a ladder, move up without gravity
+        {
+            moveDirection.y = Input.GetAxisRaw("Vertical") * movingSpeed;
+
+            if(Input.GetButtonDown("Vertical"))
+            {
+                isOnGround = false;
+            }
+        }
+
+        else if (Input.GetButtonDown("Jump") && isOnGround == true) //to move up in a Jump
+        {
+            isOnGround = false;
+            jump = true;
+            moveDirection = Vector2.up * jumpForce; //This movement then we see in Fixed Update that it will move from the ground to the max high gradually
+        }
+
+        else //When  we are not touching the ground we fall down with gravity
+        {
+            moveDirection += Physics2D.gravity * Time.deltaTime;
+        }
+
+        if(isOnGround)  //thats for avoid the growing of the value y when mario is on the ground
+        {
+            moveDirection.y = Mathf.Max(moveDirection.y, -1f);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D otherCollider2D)
     {
         if(otherCollider2D.gameObject.CompareTag("Ground"))
@@ -147,10 +145,12 @@ public class PlayerController : MonoBehaviour
             if(otherCollider2D.gameObject.transform.position.y < (transform.position.y - 0.4f))
             {
                 isOnGround = true;
+                Debug.Log(otherCollider2D.gameObject.transform.position.y);
             }
 
             else
             {
+                Debug.Log(otherCollider2D.gameObject.transform.position.y);
                 Physics2D.IgnoreCollision(marioCollider2D, otherCollider2D.gameObject.GetComponent<Collider2D>(), !isOnGround); //Ignore the collider if it hit you on the head to avoid hit a platform from under
             }
             
@@ -171,6 +171,8 @@ public class PlayerController : MonoBehaviour
         if(otherTrigger.gameObject.CompareTag("Ladder"))
         {
             isClimbing = false;
+            //isOnGround = false;
+            //jump = false;
         }
     }
 
