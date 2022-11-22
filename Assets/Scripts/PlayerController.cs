@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //public float speed = 10f;
-    //public float airspeed = 5f;
-    //public float jumpForce = 4f;
-
     //Mario Horizontal Movement
     private Rigidbody2D marioRigidBody;
     public float horizontalInput;
