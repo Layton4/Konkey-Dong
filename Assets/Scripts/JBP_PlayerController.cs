@@ -129,7 +129,7 @@ public class JBP_PlayerController : MonoBehaviour
 
             if(hit.layer == LayerMask.NameToLayer("Ground"))
             {
-                grounded = hit.transform.position.y < (transform.position.y - 0.5);
+                grounded = hit.transform.position.y < (transform.position.y - 0.3);
 
                 Physics2D.IgnoreCollision(marioCollider, results[i], !grounded); //mario ignores a collider if when it enter in contact with them their position in y is higher than mario center
             }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7616053281507745815}
   - component: {fileID: 6116959271219113811}
   - component: {fileID: 7556547561661117959}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: JBP_Platform
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -25,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8605228827608320562}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.1248, y: -2.37, z: 0}
-  m_LocalScale: {x: 0.9027699, y: 0.90277, z: 0.90277}
+  m_LocalScale: {x: 0.90277, y: 0.90277, z: 0.90277}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 18.360874, y: 0.5}
+  m_Size: {x: 14, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -98,16 +98,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.04764223, y: 0}
+  m_Offset: {x: 0.017605782, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 1, y: 0.5}
-    newSize: {x: 18.360874, y: 0.5}
+    newSize: {x: 14, y: 0.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 2
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 18.310223, y: 0.5}
+  m_Size: {x: 14.013874, y: 0.5}
   m_EdgeRadius: 0
