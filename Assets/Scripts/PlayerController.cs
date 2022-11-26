@@ -160,6 +160,11 @@ public class PlayerController : MonoBehaviour
         {
             isClimbing = true;
         }
+
+        if(otherTrigger.gameObject.CompareTag("Clock"))
+        {
+            Destroy(otherTrigger.gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D otherTrigger)

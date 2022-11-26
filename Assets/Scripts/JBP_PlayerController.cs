@@ -36,8 +36,14 @@ public class JBP_PlayerController : MonoBehaviour
 
     private Animator marioAnimator;
 
+    private JBP_GameManager gameManagerScript;
+
+    public ParticleSystem timeParticles;
+
     private void Awake()
     {
+        gameManagerScript = FindObjectOfType<JBP_GameManager>();
+
         marioRigidbody = GetComponent<Rigidbody2D>();
         marioCollider = GetComponent<Collider2D>();
 
@@ -140,6 +146,17 @@ public class JBP_PlayerController : MonoBehaviour
             }
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D otherCollider)
+    {
+        if(otherCollider.gameObject.CompareTag("Clock"))
+        {
+            Instantiate(timeParticles, otherCollider.gameObject.transform.position, timeParticles.transform.rotation);
+            Destroy(otherCollider.gameObject);
+            gameManagerScript.WinTime();
+
+        }
     }
 
 

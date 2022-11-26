@@ -5,8 +5,8 @@ using UnityEngine;
 public class JBP_SpawnManager : MonoBehaviour
 {
     public GameObject prefabBarrel;
-    private float minTime = 2f;
-    private float maxTime = 4.5f;
+    private float minTime = 2.5f;
+    private float maxTime = 5f;
 
     public GameObject player;
     public Transform[] spawnPositions;
