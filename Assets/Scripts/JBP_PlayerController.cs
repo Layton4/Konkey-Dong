@@ -148,13 +148,24 @@ public class JBP_PlayerController : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter2D(Collision2D otherColider)
+    {
+        if(otherColider.gameObject.CompareTag("Barrel"))
+        {
+            gameManagerScript.isGameover = true;
+            marioAnimator.SetBool("isGameover", true);
+            StopAllCoroutines();
+            Destroy(otherColider.gameObject);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D otherCollider)
     {
         if(otherCollider.gameObject.CompareTag("Clock"))
         {
             Instantiate(timeParticles, otherCollider.gameObject.transform.position, timeParticles.transform.rotation);
-            Destroy(otherCollider.gameObject);
             gameManagerScript.WinTime();
+            Destroy(otherCollider.gameObject);
 
         }
     }

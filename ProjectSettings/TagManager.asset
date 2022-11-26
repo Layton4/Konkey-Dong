@@ -8,6 +8,8 @@ TagManager:
   - Ladder
   - DestroyZone
   - Clock
+  - Monkey
+  - Barrel
   layers:
   - Default
   - TransparentFX
