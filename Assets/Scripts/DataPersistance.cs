@@ -24,6 +24,8 @@ public class JBP_DataPersistence
     public static int score4;
     public static int score5;
 
+    public static int scoreBeated;
+
 
     public static void SaveForFutureGames()
     {
@@ -48,5 +50,20 @@ public class JBP_DataPersistence
 
         PlayerPrefs.SetInt("score5", score5);
         PlayerPrefs.SetString("name5", name5);
+    }
+
+    public static void LoadUserData()
+    {
+        JBP_DataPersistence.score1 = PlayerPrefs.GetInt("score1");
+        JBP_DataPersistence.score2 = PlayerPrefs.GetInt("score2");
+        JBP_DataPersistence.score3 = PlayerPrefs.GetInt("score3");
+        JBP_DataPersistence.score4 = PlayerPrefs.GetInt("score4");
+        JBP_DataPersistence.score5 = PlayerPrefs.GetInt("score5");
+
+        JBP_DataPersistence.name1 = PlayerPrefs.GetString("name1");
+        JBP_DataPersistence.name2 = PlayerPrefs.GetString("name2");
+        JBP_DataPersistence.name3 = PlayerPrefs.GetString("name3");
+        JBP_DataPersistence.name4 = PlayerPrefs.GetString("name4");
+        JBP_DataPersistence.name5 = PlayerPrefs.GetString("name5");
     }
 }

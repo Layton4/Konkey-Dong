@@ -27,6 +27,10 @@ public class MenuManager: MonoBehaviour
     public TextMeshProUGUI[] scoreRanks;
     public TextMeshProUGUI[] playerNames;
 
+    private void Awake()
+    {
+        JBP_DataPersistence.LoadUserData();
+    }
     void Start()
     {
         OpenPanel(0); //When we arrive to the menu we make sure to activate only the MenuPanel, the first element of the array
@@ -135,4 +139,5 @@ public class MenuManager: MonoBehaviour
     {
         audioManagerAudioSource.Play();
     }
+
 }
