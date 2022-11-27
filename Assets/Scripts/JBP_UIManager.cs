@@ -16,13 +16,27 @@ public class JBP_UIManager : MonoBehaviour
     public TextMeshProUGUI[] scoreRanks;
     public TextMeshProUGUI[] playerNames;
 
+    public List<int> currentHighScores = new List<int>();
+    public List<string> currentNames = new List<string>();
+
     public string[] variablesNames;
 
     public string newUserName;
 
     private void Awake()
     {
-        
+        currentHighScores.Add(PlayerPrefs.GetInt("score1")); //top1
+        currentHighScores.Add(PlayerPrefs.GetInt("score2")); //top2
+        currentHighScores.Add(PlayerPrefs.GetInt("score3")); //top3
+        currentHighScores.Add(PlayerPrefs.GetInt("score4")); //top4
+        currentHighScores.Add(PlayerPrefs.GetInt("score5")); //top5
+
+
+        currentNames.Add(PlayerPrefs.GetString("name1"));
+        currentNames.Add(PlayerPrefs.GetString("name2"));
+        currentNames.Add(PlayerPrefs.GetString("name3"));
+        currentNames.Add(PlayerPrefs.GetString("name4"));
+        currentNames.Add(PlayerPrefs.GetString("name5"));
     }
 
     private void Start()
@@ -49,15 +63,27 @@ public class JBP_UIManager : MonoBehaviour
         if(string.IsNullOrWhiteSpace(JBP_inputFieldUser.text) == false)
         {
             newUserName = JBP_inputFieldUser.text;
-            PlayerPrefs.SetString(variablesNames[JBP_DataPersistence.scoreBeated], newUserName);
+
+            currentNames.Insert(JBP_DataPersistence.scoreBeated, newUserName);
+            currentNames.RemoveAt(5);
+            NameUpdate();
+            JBP_DataPersistence.SaveForFutureGames();
 
             userNamePanel.SetActive(false);
             HighScorePanel.SetActive(true);
-            UpdateHighScore();
+            UpdateHighScorePanel();
         }
     }
 
-    public void UpdateHighScore()
+    public void NameUpdate()
+    {
+        JBP_DataPersistence.name1 = currentNames[0];
+        JBP_DataPersistence.name2 = currentNames[1];
+        JBP_DataPersistence.name3 = currentNames[2];
+        JBP_DataPersistence.name4 = currentNames[3];
+        JBP_DataPersistence.name5 = currentNames[4];
+    }
+    public void UpdateHighScorePanel()
     {
         scoreRanks[0].text = JBP_DataPersistence.score1.ToString();
         playerNames[0].text = PlayerPrefs.GetString("name1", "-");
