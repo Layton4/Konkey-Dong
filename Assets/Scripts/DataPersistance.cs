@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataPersistance
+public class JBP_DataPersistence
 {
     //Music and Audio Values
     public static float SoundVolume;

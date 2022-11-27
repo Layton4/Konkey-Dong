@@ -79,7 +79,7 @@ public class MenuManager: MonoBehaviour
 
     public void Save()
     {
-        DataPersistance.SaveForFutureGames();
+        JBP_DataPersistence.SaveForFutureGames();
     }
     #endregion
 
@@ -93,8 +93,8 @@ public class MenuManager: MonoBehaviour
         intToggleMusic = BoolIntPrueba(MusicToggle.GetComponent<Toggle>().isOn);
         intToggleSound = BoolIntPrueba(SoundToggle.GetComponent<Toggle>().isOn);
 
-        DataPersistance.MusicToggle = intToggleMusic;
-        DataPersistance.SoundToggle = intToggleSound;
+        JBP_DataPersistence.MusicToggle = intToggleMusic;
+        JBP_DataPersistence.SoundToggle = intToggleSound;
 
     }
     public int BoolIntPrueba(bool b)
@@ -112,23 +112,23 @@ public class MenuManager: MonoBehaviour
 
     public void UpdateHighScoreBoard()
     {
-        scoreRanks[0].text = DataPersistance.score1.ToString();
-        playerNames[0].text = DataPersistance.name1;
+        scoreRanks[0].text = JBP_DataPersistence.score1.ToString();
+        playerNames[0].text = JBP_DataPersistence.name1;
 
-        scoreRanks[1].text = DataPersistance.score2.ToString();
-        playerNames[1].text = DataPersistance.name2;
-
-
-        scoreRanks[2].text = DataPersistance.score3.ToString();
-        playerNames[2].text = DataPersistance.name3;
+        scoreRanks[1].text = JBP_DataPersistence.score2.ToString();
+        playerNames[1].text = JBP_DataPersistence.name2;
 
 
-        scoreRanks[3].text = DataPersistance.score4.ToString();
-        playerNames[3].text = DataPersistance.name4;
+        scoreRanks[2].text = JBP_DataPersistence.score3.ToString();
+        playerNames[2].text = JBP_DataPersistence.name3;
 
 
-        scoreRanks[4].text = DataPersistance.score5.ToString();
-        playerNames[4].text = DataPersistance.name5;
+        scoreRanks[3].text = JBP_DataPersistence.score4.ToString();
+        playerNames[3].text = JBP_DataPersistence.name4;
+
+
+        scoreRanks[4].text = JBP_DataPersistence.score5.ToString();
+        playerNames[4].text = JBP_DataPersistence.name5;
     }
 
     public void TestSound()

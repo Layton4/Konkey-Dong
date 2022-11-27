@@ -38,13 +38,13 @@ public class VolumeSettings : MonoBehaviour
     void SetMusicVolume(float value)
     {
         Mixer.SetFloat(MixerMusic, Mathf.Log10(value) * 20); //Introduce the value of the slider into de audiomixer
-        DataPersistance.MusicVolume = MusicSlider.value; //Then save in Datapersistance the value of the slider
+        JBP_DataPersistence.MusicVolume = MusicSlider.value; //Then save in JBP_DataPersistence the value of the slider
     }
 
     void SetSFXVolume(float value)
     {
         Mixer.SetFloat(MixerSFX, Mathf.Log10(value) * 20);
-        DataPersistance.SoundVolume = SFXSlider.value;
+        JBP_DataPersistence.SoundVolume = SFXSlider.value;
     }
 
 }

@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class JBP_SpawnManager : MonoBehaviour
 {
-    #region Barrels
+
     public GameObject prefabBarrel;
-    private float minTime = 3f;
-    private float maxTime = 6f;
-    #endregion
 
     public Animator[] JBP_DonkeyKongs;
 
@@ -22,18 +19,21 @@ public class JBP_SpawnManager : MonoBehaviour
     public GameObject player;
     public Transform[] spawnPositionsBarrels;
 
+    //Scripts
     private JBP_GameManager JBP_GameManagerScript;
+
+    public List<GameObject> JBP_barrelsOnScene = new List<GameObject>();
 
     private void Awake()
     {
         JBP_GameManagerScript = FindObjectOfType<JBP_GameManager>();
-        StartCoroutine(ActivateMonkey());
+        StartCoroutine(ActivateMonkey()); //the enemy start throwing barrels to the player
     }
 
     private void Start()
     {
         //InvokeRepeating("BarrelSpawn", 1f, Random.Range(minTime, maxTime));
-        InvokeRepeating("ClockSpawn", JBP_timeBetweenClocks, JBP_timeBetweenClocks);
+        InvokeRepeating("ClockSpawn", JBP_timeBetweenClocks, JBP_timeBetweenClocks); //Each 20 seconds a clock is spawned on scene to let the player win time
     }
 
     public Vector3 GetRandomPosition(Transform[] positionArray)
@@ -53,31 +53,29 @@ public class JBP_SpawnManager : MonoBehaviour
 
     public void BarrelSpawn(int indx)
     {
-        //int idx = GetRandomIndex(spawnPositionsBarrels);
+        Vector3 barrelPos = spawnPositionsBarrels[indx].transform.position; //the position where the barrel will spawn
 
-        Vector3 barrelPos = spawnPositionsBarrels[indx].transform.position;
-
-        //ActivateMonkey(randomIndex);
-        Instantiate(prefabBarrel, barrelPos, prefabBarrel.transform.rotation);
+        GameObject barrel = Instantiate(prefabBarrel, barrelPos, prefabBarrel.transform.rotation); //we instantiate the barrel on the position barrelPos
+        JBP_barrelsOnScene.Add(barrel);
     }
 
     public IEnumerator ActivateMonkey()
     {
-        while(!JBP_GameManagerScript.isGameover)
+        while(!JBP_GameManagerScript.isGameover) //if the game is still on, so we didn't lose, the enemie will continue attacking us
         {
 
-        int monkeyindx = GetRandomIndex(spawnPositionsBarrels);
+        int monkeyindx = GetRandomIndex(spawnPositionsBarrels); //we generate a random index
         yield return new WaitForSeconds(1f);
 
-            JBP_DonkeyKongs[monkeyindx].SetBool("attack", true);
+            JBP_DonkeyKongs[monkeyindx].SetBool("attack", true); //we activate the attack animation of the proper random Monkey
 
-        yield return new WaitForSeconds(1.75f);
+        yield return new WaitForSeconds(1.75f); //we wait until in the animation the monkey throw a barrel
 
-        BarrelSpawn(monkeyindx);
+        BarrelSpawn(monkeyindx); //And we spawn a barrel just in time
 
-        yield return new WaitForSeconds(1.25f);
+        yield return new WaitForSeconds(1.25f); //we let the animation end to let go the enemie out of the screen
 
-        JBP_DonkeyKongs[monkeyindx].SetBool("attack", false);
+        JBP_DonkeyKongs[monkeyindx].SetBool("attack", false); //and return it to his idle state until is called again to attack us
 
 
         }

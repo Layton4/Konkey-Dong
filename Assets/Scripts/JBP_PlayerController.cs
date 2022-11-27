@@ -40,6 +40,8 @@ public class JBP_PlayerController : MonoBehaviour
 
     public ParticleSystem timeParticles;
 
+    [SerializeField] private LayerMask JBP_BarrelLayer;
+
     private void Awake()
     {
         gameManagerScript = FindObjectOfType<JBP_GameManager>();
@@ -59,32 +61,35 @@ public class JBP_PlayerController : MonoBehaviour
         marioAnimator.SetBool("isOnGround", grounded);
         marioAnimator.SetBool("isJumping", !grounded && !isClimbing);
         marioAnimator.SetBool("isClimbing", isClimbing);
-
-        if(isClimbing)
+        if (gameManagerScript.isGameover == false)
         {
-            VerticalInput = Input.GetAxisRaw("Vertical");
-            moveDirection.y = VerticalInput * movingSpeed;
+            if (isClimbing)
+            {
+                VerticalInput = Input.GetAxisRaw("Vertical");
+                moveDirection.y = VerticalInput * movingSpeed;
+            }
+
+            #region Mario Jump
+            else if (grounded && Input.GetButtonDown("Jump")) { moveDirection = Vector2.up * jumpForce; } //if we press the button Jump we aply force up
+
+            else { moveDirection += Physics2D.gravity * Time.deltaTime; } //when we are not pressing the button the gravity affect the player to return to the ground
+
+            if (grounded) { moveDirection.y = Mathf.Max(moveDirection.y, -1f); } //to avoid a high negative force down to the character we put a limit of -1 
+
+            #endregion
+
+            HorizontalInput = Input.GetAxisRaw("Horizontal");
+            moveDirection.x = HorizontalInput * movingSpeed;
+
+            MarioIsWalking();
+
+            #region Mario Rotation
+            //Mario Rotation When we change direction
+            if (HorizontalInput > 0) { transform.rotation = Quaternion.Euler(0, 0, 0); }
+            else if (HorizontalInput < 0) { transform.rotation = Quaternion.Euler(marioYRotation); }
+            #endregion
+
         }
-
-        #region Mario Jump
-        else if (grounded && Input.GetButtonDown("Jump")) { moveDirection = Vector2.up * jumpForce; } //if we press the button Jump we aply force up
-
-        else { moveDirection += Physics2D.gravity * Time.deltaTime;} //when we are not pressing the button the gravity affect the player to return to the ground
-
-        if(grounded) {moveDirection.y = Mathf.Max(moveDirection.y, -1f); } //to avoid a high negative force down to the character we put a limit of -1 
-
-        #endregion
-
-        HorizontalInput = Input.GetAxisRaw("Horizontal");
-        moveDirection.x = HorizontalInput * movingSpeed;
-
-        MarioIsWalking();
-
-        #region Mario Rotation
-        //Mario Rotation When we change direction
-        if (HorizontalInput > 0) { transform.rotation = Quaternion.Euler(0, 0, 0); }
-        else if (HorizontalInput < 0) { transform.rotation = Quaternion.Euler(marioYRotation);}
-        #endregion
     }
 
     private void FixedUpdate()
@@ -103,18 +108,6 @@ public class JBP_PlayerController : MonoBehaviour
             marioAnimator.SetBool("isMoving", false);
         }
     }
-
-    /*private void MarioIsClimbing()
-    {
-        if (grounded == false && isClimbing == true & VerticalInput != 0)
-        {
-            marioAnimator.SetBool("isMovingUp", true);
-        }
-        if(isClimbing == true && VerticalInput != 0)
-        {
-            marioAnimator.SetBool("isClimbing",true)
-        }
-    }*/
 
     private void CheckCollision()
     {
@@ -148,14 +141,25 @@ public class JBP_PlayerController : MonoBehaviour
 
     }
 
+    /*private bool CheckTheBarrel()
+    {
+        Vector2 detectBounds = marioCollider.bounds.size;
+        detectBounds.y += 0.3f; //we add more high to the zone pass over the ground collider and detect we are on the ground
+        detectBounds.x /= 2f; //we reduce in half the zone in x to avoid bugs when we climb, to not start climbing when our nose touch the ladder
+
+        //return Physics2D.BoxCast(marioCollider.bounds.center, detectBounds, 0f, Vector2.down, 0.15f, JBP_BarrelLayer);
+    }*/
+
     private void OnCollisionEnter2D(Collision2D otherColider)
     {
-        if(otherColider.gameObject.CompareTag("Barrel"))
+        if(otherColider.gameObject.CompareTag("Barrel")) //if the player collide with a barrel
         {
-            gameManagerScript.isGameover = true;
-            marioAnimator.SetBool("isGameover", true);
-            StopAllCoroutines();
-            Destroy(otherColider.gameObject);
+            gameManagerScript.isGameover = true; //we activate the gameover
+            marioAnimator.SetBool("isGameover", true); //change our sprite to the gameover sprite
+            StopAllCoroutines(); //the corroutine of attack is stopped
+
+            
+            Destroy(otherColider.gameObject); //we destroy the barrel
         }
     }
 
