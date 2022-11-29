@@ -156,10 +156,10 @@ public class JBP_PlayerController : MonoBehaviour
         if(otherColider.gameObject.CompareTag("Barrel") && gameManagerScript.isGameover == false) //if the player collide with a barrel
         {
             deadPosition = transform.position;
-            gameManagerScript.isGameover = true; //we activate the gameover
+            //gameManagerScript.isGameover = true; //we activate the gameover
             marioAnimator.SetBool("isGameover", true); //change our sprite to the gameover sprite
             StopAllCoroutines(); //the corroutine of attack is stopped
-
+            gameManagerScript.showGameOverPanel(true);
             StartCoroutine(gameManagerScript.JBP_deadPlayer());
             Destroy(otherColider.gameObject); //we destroy the barrel
         }

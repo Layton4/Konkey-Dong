@@ -26,7 +26,6 @@ public class JBP_DataPersistence
 
     public static int scoreBeated;
 
-
     public static void SaveForFutureGames()
     {
         //Music and SFX

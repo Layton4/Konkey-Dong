@@ -10,7 +10,7 @@ public class JBP_GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public ParticleSystem grabTimeParticles;
 
-    private float timeLeft = 100;
+    private float timeLeft = 60;
     private float timeBonus = 25;
 
     public bool isGameover;
@@ -31,11 +31,20 @@ public class JBP_GameManager : MonoBehaviour
 
     [SerializeField] private LayerMask barrelLayerMask;
 
+    public GameObject gameOverPanel;
+    public GameObject timesUpMessage;
+    public GameObject gamePanel;
+
+    private JBP_PlayerController JBP_playerControllerScript;
+
     private void Awake()
     {
-        
+        gamePanel.SetActive(true);
+        gameOverPanel.SetActive(false);
+        JBP_postProcesing.SetActive(false);
         goToScoreBoard = false;
 
+        JBP_playerControllerScript = FindObjectOfType<JBP_PlayerController>();
         JBP_SpawnManagerScript = GameObject.Find("JBP_SpawnManager").GetComponent<JBP_SpawnManager>();
 
         currentHighScores.Add(PlayerPrefs.GetInt("score1")); //top1
@@ -70,9 +79,12 @@ public class JBP_GameManager : MonoBehaviour
             JBP_ScoreText.text = $"Score: {Mathf.Round(score)}";
         }
 
-        if(timeLeft == 0)
+        if(timeLeft <= 0)
         {
-            isGameover = true;
+            
+            StopAllCoroutines();
+            showGameOverPanel(false);
+            StartCoroutine(JBP_deadPlayer());
         }
         
     }
@@ -85,22 +97,41 @@ public class JBP_GameManager : MonoBehaviour
 
     public IEnumerator JBP_deadPlayer()
     {
-        JBP_postProcesing.SetActive(true);
-
-        SearchUserRank();
-        RankingUpdate();
-
-        yield return new WaitForSeconds(4f);
-
-        if(goToScoreBoard)
+        if (!isGameover)
         {
-            SceneManager.LoadScene("JBP_HighScore");
-        }
+            isGameover = true;
+            JBP_postProcesing.SetActive(true);
 
+            SearchUserRank();
+            RankingUpdate();
+            
+
+            yield return new WaitForSeconds(4f);
+
+            if (goToScoreBoard)
+            {
+                SceneManager.LoadScene("JBP_HighScore");
+            }
+
+            else
+            {
+                SceneManager.LoadScene("JBP_Menu");
+            }
+        }
+    }
+
+    public void showGameOverPanel(bool wasaBarrel)
+    {
+        if(!wasaBarrel)
+        {
+            timesUpMessage.SetActive(true);
+        }
         else
         {
-            SceneManager.LoadScene("JBP_Menu");
+            timesUpMessage.SetActive(false);
         }
+        gameOverPanel.SetActive(true);
+       
     }
 
     #region ScoreBoard
