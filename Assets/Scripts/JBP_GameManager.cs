@@ -81,8 +81,11 @@ public class JBP_GameManager : MonoBehaviour
 
         if(timeLeft <= 0)
         {
-            
-            StopAllCoroutines();
+            if(!isGameover)
+            {
+                JBP_playerControllerScript.deadPosition = JBP_playerControllerScript.gameObject.transform.position;
+                StopAllCoroutines();
+            }
             showGameOverPanel(false);
             StartCoroutine(JBP_deadPlayer());
         }

@@ -24,6 +24,8 @@ public class JBP_SpawnManager : MonoBehaviour
 
     public List<GameObject> JBP_barrelsOnScene = new List<GameObject>();
 
+    private int monkeyindx;
+
     private void Awake()
     {
         JBP_GameManagerScript = FindObjectOfType<JBP_GameManager>();
@@ -34,6 +36,14 @@ public class JBP_SpawnManager : MonoBehaviour
     {
         //InvokeRepeating("BarrelSpawn", 1f, Random.Range(minTime, maxTime));
         InvokeRepeating("ClockSpawn", JBP_timeBetweenClocks, JBP_timeBetweenClocks); //Each 20 seconds a clock is spawned on scene to let the player win time
+    }
+
+    private void Update()
+    {
+        if(JBP_GameManagerScript.isGameover == true)
+        {
+            JBP_DonkeyKongs[monkeyindx].SetBool("isLaughing", true);
+        }
     }
 
     public Vector3 GetRandomPosition(Transform[] positionArray)
@@ -64,7 +74,7 @@ public class JBP_SpawnManager : MonoBehaviour
         while(!JBP_GameManagerScript.isGameover) //if the game is still on, so we didn't lose, the enemie will continue attacking us
         {
 
-        int monkeyindx = GetRandomIndex(spawnPositionsBarrels); //we generate a random index
+        monkeyindx = GetRandomIndex(spawnPositionsBarrels); //we generate a random index
         yield return new WaitForSeconds(1f);
 
             JBP_DonkeyKongs[monkeyindx].SetBool("attack", true); //we activate the attack animation of the proper random Monkey

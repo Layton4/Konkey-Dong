@@ -44,7 +44,7 @@ public class JBP_PlayerController : MonoBehaviour
 
     public GameObject JBP_PointsCanvas;
 
-    private Vector3 deadPosition;
+    public Vector3 deadPosition;
 
     private void Awake()
     {
@@ -98,6 +98,7 @@ public class JBP_PlayerController : MonoBehaviour
         }
         else
         {
+            marioAnimator.SetBool("isGameover", true);
             transform.position = deadPosition;
         }
     }
