@@ -27,6 +27,7 @@ public class JBP_GameManager : MonoBehaviour
 
     
     private bool goToScoreBoard;
+   
 
     [SerializeField] private LayerMask barrelLayerMask;
 
@@ -85,11 +86,6 @@ public class JBP_GameManager : MonoBehaviour
     public IEnumerator JBP_deadPlayer()
     {
         JBP_postProcesing.SetActive(true);
-        
-        /*foreach (GameObject Obstacle in JBP_SpawnManagerScript.JBP_barrelsOnScene)
-        {
-            Destroy(Obstacle);
-        }*/
 
         SearchUserRank();
         RankingUpdate();

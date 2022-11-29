@@ -44,6 +44,8 @@ public class JBP_PlayerController : MonoBehaviour
 
     public GameObject JBP_PointsCanvas;
 
+    private Vector3 deadPosition;
+
     private void Awake()
     {
         gameManagerScript = FindObjectOfType<JBP_GameManager>();
@@ -96,8 +98,7 @@ public class JBP_PlayerController : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Estoy muerto, me quedo quieto");
-            marioRigidbody.velocity = Vector2.zero;
+            transform.position = deadPosition;
         }
     }
 
@@ -154,6 +155,7 @@ public class JBP_PlayerController : MonoBehaviour
     {
         if(otherColider.gameObject.CompareTag("Barrel") && gameManagerScript.isGameover == false) //if the player collide with a barrel
         {
+            deadPosition = transform.position;
             gameManagerScript.isGameover = true; //we activate the gameover
             marioAnimator.SetBool("isGameover", true); //change our sprite to the gameover sprite
             StopAllCoroutines(); //the corroutine of attack is stopped
