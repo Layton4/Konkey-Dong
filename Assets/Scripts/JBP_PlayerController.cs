@@ -58,6 +58,8 @@ public class JBP_PlayerController : MonoBehaviour
     {
         CheckCollision();
 
+        BarrelJumped();
+
         marioAnimator.SetBool("isOnGround", grounded);
         marioAnimator.SetBool("isJumping", !grounded && !isClimbing);
         marioAnimator.SetBool("isClimbing", isClimbing);
@@ -158,7 +160,7 @@ public class JBP_PlayerController : MonoBehaviour
             marioAnimator.SetBool("isGameover", true); //change our sprite to the gameover sprite
             StopAllCoroutines(); //the corroutine of attack is stopped
 
-            
+            StartCoroutine(gameManagerScript.JBP_deadPlayer());
             Destroy(otherColider.gameObject); //we destroy the barrel
         }
     }
@@ -174,5 +176,29 @@ public class JBP_PlayerController : MonoBehaviour
         }
     }
 
+    public bool BarrelJumped()
+    {
+        float extraHeight = 0.5f;
+
+        RaycastHit2D raycastHit = Physics2D.Raycast(marioCollider.bounds.center, Vector2.down, marioCollider.bounds.extents.y + extraHeight, JBP_BarrelLayer);
+
+        Color rayColor;
+
+        if (raycastHit.collider != null && raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped == false)
+        {
+            rayColor = Color.green;
+            Debug.Log("Barril Saltado");
+            raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped = true;
+            gameManagerScript.score += 10;
+        }
+
+        else
+        {
+            rayColor = Color.red;
+        }
+
+        Debug.DrawRay(marioCollider.bounds.center, Vector2.down * (marioCollider.bounds.extents.y + extraHeight), rayColor);
+        return raycastHit.collider != null;
+    }
 
 }

@@ -28,6 +28,8 @@ public class JBP_GameManager : MonoBehaviour
     private bool corroutineDone;
     private bool goToScoreBoard;
 
+    [SerializeField] private LayerMask barrelLayerMask;
+
     private void Awake()
     {
         corroutineDone = false;
@@ -58,20 +60,15 @@ public class JBP_GameManager : MonoBehaviour
     }
     private void Update()
     {
-        timeLeft -= Time.deltaTime;
-        timerText.text = $"Time: {Mathf.Round(timeLeft)}";
-
-        score += Time.deltaTime;
-        JBP_ScoreText.text = $"Score: {Mathf.Round(score)}";
-        
-
-        if(isGameover)
+        if(!isGameover)
         {
-            if(!corroutineDone)
-            {
-                StartCoroutine(JBP_deadPlayer());
-            }
+            timeLeft -= Time.deltaTime;
+            timerText.text = $"Time: {Mathf.Round(timeLeft)}";
+
+            score += Time.deltaTime;
+            JBP_ScoreText.text = $"Score: {Mathf.Round(score)}";
         }
+        
     }
 
     public void WinTime()
@@ -79,16 +76,6 @@ public class JBP_GameManager : MonoBehaviour
         timeLeft += timeBonus;
     }
 
-    public void deadPlayer()
-    {
-        JBP_postProcesing.SetActive(true);
-        foreach(GameObject Obstacle in JBP_SpawnManagerScript.JBP_barrelsOnScene)
-        {
-            Destroy(Obstacle);  
-        }
-
-        Time.timeScale = 0;
-    }
 
     public IEnumerator JBP_deadPlayer()
     {
@@ -115,7 +102,7 @@ public class JBP_GameManager : MonoBehaviour
         }
     }
 
-
+    #region ScoreBoard
     public void SearchUserRank()
     {
         int scoreRank = 5; 
@@ -159,5 +146,5 @@ public class JBP_GameManager : MonoBehaviour
 
         JBP_DataPersistence.SaveForFutureGames();
     }
-
+    #endregion
 }

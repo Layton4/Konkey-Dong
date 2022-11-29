@@ -9,11 +9,12 @@ public class JBP_Barrel : MonoBehaviour
 
     private JBP_SpawnManager JBP_SpawnManagerScript;
 
+    public bool isJumped;
     private void Awake()
     {
         barrelRigidbody = GetComponent<Rigidbody2D>();
         JBP_SpawnManagerScript = GameObject.Find("JBP_SpawnManager").GetComponent<JBP_SpawnManager>();
-
+        isJumped = false;
     }
 
     private void OnCollisionEnter2D(Collision2D otherCollider)
