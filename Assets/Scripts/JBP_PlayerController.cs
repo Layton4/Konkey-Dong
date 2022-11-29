@@ -42,6 +42,8 @@ public class JBP_PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask JBP_BarrelLayer;
 
+    public GameObject JBP_PointsCanvas;
+
     private void Awake()
     {
         gameManagerScript = FindObjectOfType<JBP_GameManager>();
@@ -91,6 +93,11 @@ public class JBP_PlayerController : MonoBehaviour
             else if (HorizontalInput < 0) { transform.rotation = Quaternion.Euler(marioYRotation); }
             #endregion
 
+        }
+        else
+        {
+            //Debug.Log("Estoy muerto, me quedo quieto");
+            marioRigidbody.velocity = Vector2.zero;
         }
     }
 
@@ -143,18 +150,9 @@ public class JBP_PlayerController : MonoBehaviour
 
     }
 
-    /*private bool CheckTheBarrel()
-    {
-        Vector2 detectBounds = marioCollider.bounds.size;
-        detectBounds.y += 0.3f; //we add more high to the zone pass over the ground collider and detect we are on the ground
-        detectBounds.x /= 2f; //we reduce in half the zone in x to avoid bugs when we climb, to not start climbing when our nose touch the ladder
-
-        //return Physics2D.BoxCast(marioCollider.bounds.center, detectBounds, 0f, Vector2.down, 0.15f, JBP_BarrelLayer);
-    }*/
-
     private void OnCollisionEnter2D(Collision2D otherColider)
     {
-        if(otherColider.gameObject.CompareTag("Barrel")) //if the player collide with a barrel
+        if(otherColider.gameObject.CompareTag("Barrel") && gameManagerScript.isGameover == false) //if the player collide with a barrel
         {
             gameManagerScript.isGameover = true; //we activate the gameover
             marioAnimator.SetBool("isGameover", true); //change our sprite to the gameover sprite
@@ -178,7 +176,7 @@ public class JBP_PlayerController : MonoBehaviour
 
     public bool BarrelJumped()
     {
-        float extraHeight = 0.5f;
+        float extraHeight = 0.6f;
 
         RaycastHit2D raycastHit = Physics2D.Raycast(marioCollider.bounds.center, Vector2.down, marioCollider.bounds.extents.y + extraHeight, JBP_BarrelLayer);
 
@@ -187,7 +185,9 @@ public class JBP_PlayerController : MonoBehaviour
         if (raycastHit.collider != null && raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped == false)
         {
             rayColor = Color.green;
-            Debug.Log("Barril Saltado");
+
+            Instantiate(JBP_PointsCanvas, raycastHit.collider.gameObject.transform.position, JBP_PointsCanvas.transform.rotation);
+
             raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped = true;
             gameManagerScript.score += 10;
         }

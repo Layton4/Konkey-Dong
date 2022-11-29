@@ -25,14 +25,14 @@ public class JBP_GameManager : MonoBehaviour
     public List<int> currentHighScores = new List<int>();
     public List<string> currentNames = new List<string>();
 
-    private bool corroutineDone;
+    
     private bool goToScoreBoard;
 
     [SerializeField] private LayerMask barrelLayerMask;
 
     private void Awake()
     {
-        corroutineDone = false;
+        
         goToScoreBoard = false;
 
         JBP_SpawnManagerScript = GameObject.Find("JBP_SpawnManager").GetComponent<JBP_SpawnManager>();
@@ -68,6 +68,11 @@ public class JBP_GameManager : MonoBehaviour
             score += Time.deltaTime;
             JBP_ScoreText.text = $"Score: {Mathf.Round(score)}";
         }
+
+        if(timeLeft == 0)
+        {
+            isGameover = true;
+        }
         
     }
 
@@ -80,14 +85,14 @@ public class JBP_GameManager : MonoBehaviour
     public IEnumerator JBP_deadPlayer()
     {
         JBP_postProcesing.SetActive(true);
-        foreach (GameObject Obstacle in JBP_SpawnManagerScript.JBP_barrelsOnScene)
+        
+        /*foreach (GameObject Obstacle in JBP_SpawnManagerScript.JBP_barrelsOnScene)
         {
             Destroy(Obstacle);
-        }
+        }*/
 
         SearchUserRank();
         RankingUpdate();
-        corroutineDone = true;
 
         yield return new WaitForSeconds(4f);
 
@@ -130,7 +135,6 @@ public class JBP_GameManager : MonoBehaviour
 
         else //we didn't found our score in any of the top 5 score
         {
-            Debug.Log("Indice fuera de rango"); 
             return;
         }
     }

@@ -82,6 +82,7 @@ public class JBP_UIManager : MonoBehaviour
         JBP_DataPersistence.name3 = currentNames[2];
         JBP_DataPersistence.name4 = currentNames[3];
         JBP_DataPersistence.name5 = currentNames[4];
+        JBP_DataPersistence.SaveForFutureGames();
     }
     public void UpdateHighScorePanel()
     {

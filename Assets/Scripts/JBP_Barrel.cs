@@ -8,13 +8,26 @@ public class JBP_Barrel : MonoBehaviour
     private float speed = 3f;
 
     private JBP_SpawnManager JBP_SpawnManagerScript;
+    private JBP_GameManager JBP_gameManagerScript;
 
     public bool isJumped;
+
+    public ParticleSystem destroyParticles;
     private void Awake()
     {
+        JBP_gameManagerScript = GameObject.Find("JBP_GameManager").GetComponent<JBP_GameManager>();
         barrelRigidbody = GetComponent<Rigidbody2D>();
         JBP_SpawnManagerScript = GameObject.Find("JBP_SpawnManager").GetComponent<JBP_SpawnManager>();
         isJumped = false;
+    }
+
+    private void Update()
+    {
+        if (JBP_gameManagerScript.isGameover)
+        {
+            Instantiate(destroyParticles, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D otherCollider)

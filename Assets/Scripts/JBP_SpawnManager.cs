@@ -56,7 +56,7 @@ public class JBP_SpawnManager : MonoBehaviour
         Vector3 barrelPos = spawnPositionsBarrels[indx].transform.position; //the position where the barrel will spawn
 
         GameObject barrel = Instantiate(prefabBarrel, barrelPos, prefabBarrel.transform.rotation); //we instantiate the barrel on the position barrelPos
-        JBP_barrelsOnScene.Add(barrel);
+        //JBP_barrelsOnScene.Add(barrel);
     }
 
     public IEnumerator ActivateMonkey()

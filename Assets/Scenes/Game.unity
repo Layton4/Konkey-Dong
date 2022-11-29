@@ -3247,6 +3247,11 @@ MonoBehaviour:
   JBP_postProcesing: {fileID: 1816200640}
   score: 0
   JBP_ScoreText: {fileID: 330078905}
+  currentHighScores: 
+  currentNames: []
+  barrelLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &1979092547 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5247954082061876188, guid: 889e536aa2d9e2f40b385ff1f990bd5f, type: 3}
@@ -3778,6 +3783,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6792076290099810803, guid: e4d0aca9f969be0449ccba36126850cf, type: 3}
+      propertyPath: JBP_PointsCanvas
+      value: 
+      objectReference: {fileID: 2835523076028338215, guid: 393ab890c7c9e5a40b255349592cb7cf, type: 3}
     - target: {fileID: 6792076290099810803, guid: e4d0aca9f969be0449ccba36126850cf, type: 3}
       propertyPath: JBP_BarrelLayer.m_Bits
       value: 256
