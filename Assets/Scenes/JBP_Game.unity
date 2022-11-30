@@ -4228,7 +4228,11 @@ PrefabInstance:
     - target: {fileID: 6792076290099810803, guid: e4d0aca9f969be0449ccba36126850cf, type: 3}
       propertyPath: marioJump
       value: 
-      objectReference: {fileID: 8300000, guid: 682cef7fd60331f4ab6ceed461598e06, type: 3}
+      objectReference: {fileID: 8300000, guid: 68fefda61811c464ab4be1e57b24bcb1, type: 3}
+    - target: {fileID: 6792076290099810803, guid: e4d0aca9f969be0449ccba36126850cf, type: 3}
+      propertyPath: JBP_barrelScore
+      value: 
+      objectReference: {fileID: 8300000, guid: e53a9317541f4964c8552b947218c437, type: 3}
     - target: {fileID: 6792076290099810803, guid: e4d0aca9f969be0449ccba36126850cf, type: 3}
       propertyPath: JBP_PointsCanvas
       value: 

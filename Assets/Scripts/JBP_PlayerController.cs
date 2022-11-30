@@ -49,7 +49,7 @@ public class JBP_PlayerController : MonoBehaviour
 
     private AudioSource JBP_marioAudioSource;
     public AudioClip marioJump;
-
+    public AudioClip JBP_barrelScore;
 
     private void Awake()
     {
@@ -198,6 +198,7 @@ public class JBP_PlayerController : MonoBehaviour
             rayColor = Color.green;
 
             Instantiate(JBP_PointsCanvas, raycastHit.collider.gameObject.transform.position, JBP_PointsCanvas.transform.rotation);
+            JBP_marioAudioSource.PlayOneShot(JBP_barrelScore, 1f);
 
             raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped = true;
             gameManagerScript.score += 10;
