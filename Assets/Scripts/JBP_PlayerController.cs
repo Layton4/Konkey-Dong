@@ -46,6 +46,11 @@ public class JBP_PlayerController : MonoBehaviour
 
     public Vector3 deadPosition;
 
+
+    private AudioSource JBP_marioAudioSource;
+    public AudioClip marioJump;
+
+
     private void Awake()
     {
         gameManagerScript = FindObjectOfType<JBP_GameManager>();
@@ -54,6 +59,9 @@ public class JBP_PlayerController : MonoBehaviour
         marioCollider = GetComponent<Collider2D>();
 
         marioAnimator = GetComponent<Animator>();
+
+        JBP_marioAudioSource = GetComponent<AudioSource>();
+
 
         results = new Collider2D[4]; //The array of collider will have 4 empty space, we will not be in touch of more than 4 colliders at the same time
     }
@@ -76,7 +84,7 @@ public class JBP_PlayerController : MonoBehaviour
             }
 
             #region Mario Jump
-            else if (grounded && Input.GetButtonDown("Jump")) { moveDirection = Vector2.up * jumpForce; } //if we press the button Jump we aply force up
+            else if (grounded && Input.GetButtonDown("Jump")) { moveDirection = Vector2.up * jumpForce; JBP_marioAudioSource.PlayOneShot(marioJump, 1f); } //if we press the button Jump we aply force up
 
             else { moveDirection += Physics2D.gravity * Time.deltaTime; } //when we are not pressing the button the gravity affect the player to return to the ground
 

@@ -37,6 +37,9 @@ public class JBP_GameManager : MonoBehaviour
 
     private JBP_PlayerController JBP_playerControllerScript;
 
+    private AudioSource JBP_musicAudioSource;
+    public AudioClip JBP_deadMusic;
+
     private void Awake()
     {
         gamePanel.SetActive(true);
@@ -46,6 +49,8 @@ public class JBP_GameManager : MonoBehaviour
 
         JBP_playerControllerScript = FindObjectOfType<JBP_PlayerController>();
         JBP_SpawnManagerScript = GameObject.Find("JBP_SpawnManager").GetComponent<JBP_SpawnManager>();
+
+        JBP_musicAudioSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
 
         currentHighScores.Add(PlayerPrefs.GetInt("score1")); //top1
         currentHighScores.Add(PlayerPrefs.GetInt("score2")); //top2
@@ -107,9 +112,10 @@ public class JBP_GameManager : MonoBehaviour
 
             SearchUserRank();
             RankingUpdate();
-            
 
-            yield return new WaitForSeconds(4f);
+            JBP_musicAudioSource.Stop();
+            JBP_musicAudioSource.PlayOneShot(JBP_deadMusic, 1f);
+            yield return new WaitForSeconds(4.4f);
 
             if (goToScoreBoard)
             {
