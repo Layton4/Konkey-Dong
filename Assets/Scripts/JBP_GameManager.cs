@@ -10,7 +10,7 @@ public class JBP_GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public ParticleSystem grabTimeParticles;
 
-    private float timeLeft = 40;
+    private float timeLeft = 45;
     private float timeBonus = 20;
 
     public bool isGameover;
@@ -40,7 +40,7 @@ public class JBP_GameManager : MonoBehaviour
     private AudioSource JBP_musicAudioSource;
     public AudioClip JBP_deadMusic;
 
-    public float speedUpScore = 1;
+    //public float speedUpScore = 1;
     public GameObject[] laders;
 
     //public Color[] laderColors;

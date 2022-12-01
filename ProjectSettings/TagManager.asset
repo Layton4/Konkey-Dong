@@ -10,6 +10,7 @@ TagManager:
   - Clock
   - Monkey
   - Barrel
+  - downZone
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Ladder
   - Ground
   - Barrel
-  - 
+  - LadderDown
   - 
   - 
   - 

@@ -77,9 +77,9 @@ public class JBP_PlayerController : MonoBehaviour
         marioAnimator.SetBool("isOnGround", grounded);
         marioAnimator.SetBool("isJumping", !grounded && !isClimbing);
         marioAnimator.SetBool("isClimbing", isClimbing);
-        if (gameManagerScript.isGameover == false)
+        if (gameManagerScript.isGameover == false) //if we are still playing
         {
-            if (isClimbing)
+            if (isClimbing) //and we enter in a climb collider
             {
                 VerticalInput = Input.GetAxisRaw("Vertical");
                 moveDirection.y = VerticalInput * movingSpeed / 0.9f;
@@ -95,7 +95,7 @@ public class JBP_PlayerController : MonoBehaviour
             #endregion
 
             HorizontalInput = Input.GetAxisRaw("Horizontal");
-            moveDirection.x = HorizontalInput * movingSpeed;
+            moveDirection.x = HorizontalInput * movingSpeed; //The player is moved by HorizontalInput
 
             MarioIsWalking();
 
@@ -109,16 +109,16 @@ public class JBP_PlayerController : MonoBehaviour
         else
         {
             marioAnimator.SetBool("isGameover", true);
-            transform.position = deadPosition;
+            transform.position = deadPosition; //When we die we make sure to stay on the place and not be affected by any momentum conserved from our dead
         }
     }
 
     private void FixedUpdate()
     {
-        marioRigidbody.MovePosition(marioRigidbody.position + moveDirection * Time.fixedDeltaTime);
+        marioRigidbody.MovePosition(marioRigidbody.position + moveDirection * Time.fixedDeltaTime); //each frame we let the player move to the position we told from input
     }
 
-    private void MarioIsWalking()
+    private void MarioIsWalking() //This method controlls the player walking animation, the change between idle and walking animation
     {
         if (grounded == true && HorizontalInput != 0)
         {
@@ -147,16 +147,28 @@ public class JBP_PlayerController : MonoBehaviour
         {
             GameObject hit = results[i].gameObject;
 
-            if(hit.layer == LayerMask.NameToLayer("Ground"))
+            if(hit.layer == LayerMask.NameToLayer("Ground")) //if we are in contact with ground layer
             {
-                grounded = hit.transform.position.y < (transform.position.y - 0.3);
+                grounded = hit.transform.position.y < (transform.position.y - 0.3); //We make sure we are in contact with the low part of the player
 
-                Physics2D.IgnoreCollision(marioCollider, results[i], !grounded); //mario ignores a collider if when it enter in contact with them their position in y is higher than mario center
+                Physics2D.IgnoreCollision(marioCollider, results[i], !grounded); //JumpMan ignores a collider if when it enter in contact with his head
             }
 
-            else if(hit.layer == LayerMask.NameToLayer("Ladder"))
+            else if(hit.layer == LayerMask.NameToLayer("Ladder")) //If we are in a ladder and we hit the climb button we can climb
             {
-                isClimbing = true;
+                if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                {
+                    isClimbing = true;
+                }
+            }
+
+            else if(hit.layer == LayerMask.NameToLayer("LadderDown"))
+            {
+                if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+                {
+                    isClimbing = true;
+                    
+                }
             }
         }
 
@@ -178,31 +190,33 @@ public class JBP_PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        if(otherCollider.gameObject.CompareTag("Clock"))
+        if(otherCollider.gameObject.CompareTag("Clock")) //if we take a clock we add time to the timer and make disapear the clock instantiating particles
         {
             Instantiate(timeParticles, otherCollider.gameObject.transform.position, timeParticles.transform.rotation);
             gameManagerScript.WinTime();
             Destroy(otherCollider.gameObject);
 
         }
+
     }
+
 
     public bool BarrelJumped()
     {
         float extraHeight = 0.6f;
-
+        //we have a ray to the floor, that only detect if it collides with a barrel
         RaycastHit2D raycastHit = Physics2D.Raycast(marioCollider.bounds.center, Vector2.down, marioCollider.bounds.extents.y + extraHeight, JBP_BarrelLayer);
 
         Color rayColor;
 
-        if (raycastHit.collider != null && raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped == false)
+        if (raycastHit.collider != null && raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped == false && !isClimbing)
         {
-            rayColor = Color.green;
+            rayColor = Color.green; //it turns green when it collides with a barrel
 
             Instantiate(JBP_PointsCanvas, raycastHit.collider.gameObject.transform.position, JBP_PointsCanvas.transform.rotation);
             JBP_marioAudioSource.PlayOneShot(JBP_barrelScore, 1f);
 
-            raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped = true;
+            raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isJumped = true; //we activate the boolean isJumped to avoid jump two times the same barrel, and just score once
             gameManagerScript.score += 10;
         }
 
