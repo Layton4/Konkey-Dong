@@ -51,6 +51,8 @@ public class JBP_PlayerController : MonoBehaviour
     public AudioClip marioJump;
     public AudioClip JBP_barrelScore;
 
+    private Vector2 gravityModified = new Vector2(0, -1.5f);
+
     private void Awake()
     {
         gameManagerScript = FindObjectOfType<JBP_GameManager>();
@@ -80,13 +82,13 @@ public class JBP_PlayerController : MonoBehaviour
             if (isClimbing)
             {
                 VerticalInput = Input.GetAxisRaw("Vertical");
-                moveDirection.y = VerticalInput * movingSpeed;
+                moveDirection.y = VerticalInput * movingSpeed / 0.9f;
             }
 
             #region Mario Jump
             else if (grounded && Input.GetButtonDown("Jump")) { moveDirection = Vector2.up * jumpForce; JBP_marioAudioSource.PlayOneShot(marioJump, 1f); } //if we press the button Jump we aply force up
 
-            else { moveDirection += Physics2D.gravity * Time.deltaTime; } //when we are not pressing the button the gravity affect the player to return to the ground
+            else { moveDirection += (Physics2D.gravity + gravityModified) * Time.deltaTime; } //when we are not pressing the button the gravity affect the player to return to the ground
 
             if (grounded) { moveDirection.y = Mathf.Max(moveDirection.y, -1f); } //to avoid a high negative force down to the character we put a limit of -1 
 

@@ -10,8 +10,8 @@ public class JBP_GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public ParticleSystem grabTimeParticles;
 
-    private float timeLeft = 60;
-    private float timeBonus = 25;
+    private float timeLeft = 40;
+    private float timeBonus = 20;
 
     public bool isGameover;
     public GameObject JBP_postProcesing;
@@ -40,6 +40,13 @@ public class JBP_GameManager : MonoBehaviour
     private AudioSource JBP_musicAudioSource;
     public AudioClip JBP_deadMusic;
 
+    public float speedUpScore = 1;
+    public GameObject[] laders;
+
+    //public Color[] laderColors;
+
+
+
     private void Awake()
     {
         gamePanel.SetActive(true);
@@ -67,7 +74,7 @@ public class JBP_GameManager : MonoBehaviour
     }
     private void Start()
     {
-        Time.timeScale = 1;
+        Time.timeScale = 1f;
         timerText.text = $"Time: {Mathf.Round(timeLeft)}";
 
         score = 0;
@@ -94,7 +101,7 @@ public class JBP_GameManager : MonoBehaviour
             showGameOverPanel(false);
             StartCoroutine(JBP_deadPlayer());
         }
-        
+   
     }
 
     public void WinTime()

@@ -10,7 +10,7 @@ public class JBP_SpawnManager : MonoBehaviour
     public Animator[] JBP_DonkeyKongs;
 
     public GameObject JBP_clockPrefab;
-    private float JBP_timeBetweenClocks = 20f; //time to spawn a new clock on scene
+    private float JBP_timeBetweenClocks = 18f; //time to spawn a new clock on scene
 
     public int randomIndex;
 

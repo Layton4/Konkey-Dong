@@ -5,7 +5,7 @@ using UnityEngine;
 public class JBP_Barrel : MonoBehaviour
 {
     private Rigidbody2D barrelRigidbody;
-    private float speed = 3f;
+    private float speed = 5f;
 
     private JBP_SpawnManager JBP_SpawnManagerScript;
     private JBP_GameManager JBP_gameManagerScript;
