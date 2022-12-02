@@ -134,6 +134,7 @@ public class JBP_PlayerController : MonoBehaviour
     {
         grounded = false;
         isClimbing = false;
+        marioCollider.enabled = true;
 
         Vector2 size = marioCollider.bounds.size; //this is the zone we will check if we are in contact with other colliders
 
@@ -162,12 +163,12 @@ public class JBP_PlayerController : MonoBehaviour
                 }
             }
 
-            else if(hit.layer == LayerMask.NameToLayer("LadderDown"))
+            if(hit.layer == LayerMask.NameToLayer("LadderDown"))
             {
                 if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
                 {
                     isClimbing = true;
-                    
+                    marioCollider.enabled = false;
                 }
             }
         }

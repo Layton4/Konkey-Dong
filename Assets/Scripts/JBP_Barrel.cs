@@ -5,7 +5,8 @@ using UnityEngine;
 public class JBP_Barrel : MonoBehaviour
 {
     private Rigidbody2D barrelRigidbody;
-    private float speed = 5f;
+    private float minspeed = 4f;
+    private float maxspeed = 5.5f;
 
     private JBP_SpawnManager JBP_SpawnManagerScript;
     private JBP_GameManager JBP_gameManagerScript;
@@ -34,6 +35,7 @@ public class JBP_Barrel : MonoBehaviour
     {
         if(otherCollider.gameObject.CompareTag("Ground")) //When the barrel touch the ground is first impulsed with a bit of force to make it move and roll down with physics
         {
+            float speed = Random.Range(minspeed, maxspeed);
             barrelRigidbody.AddForce(otherCollider.transform.right * speed, ForceMode2D.Impulse);
         }
 

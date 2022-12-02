@@ -42,7 +42,7 @@ public class JBP_GameManager : MonoBehaviour
 
     public GameObject[] laders;
 
-
+    private float divider = 2f;
 
 
     private void Awake()
@@ -86,7 +86,7 @@ public class JBP_GameManager : MonoBehaviour
             timeLeft -= Time.deltaTime;
             timerText.text = $"Time: {Mathf.Round(timeLeft)}";
 
-            score += Time.deltaTime;
+            score += Time.deltaTime / divider;
             JBP_ScoreText.text = $"Score: {Mathf.Round(score)}";
         }
 
