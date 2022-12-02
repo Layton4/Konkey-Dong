@@ -41,15 +41,15 @@ public class JBP_UIManager : MonoBehaviour
 
     private void Start()
     {
-        HighScorePanel.SetActive(false);
+        HighScorePanel.SetActive(false); //we make sure to first show the inputfield to introduce the player name
         userNamePanel.SetActive(true);
 
-        foreach(TextMeshProUGUI letter in userNameLeters)
+        foreach(TextMeshProUGUI letter in userNameLeters) //the empty space on screen will be placeholded with a -, but is visual, the input field is actually empty
         {
             letter.text = "-";
         }
     }
-    public void UpdateUsername()
+    public void UpdateUsername() //each letter that we introduce in the input field updates the Ui to show bigger and with the font of the game the user nickname
     {
         int nameLenght = JBP_inputFieldUser.text.Length;
         for(int i = 0; i < nameLenght; i++)
@@ -58,7 +58,7 @@ public class JBP_UIManager : MonoBehaviour
         }
     }
 
-    public void ConfirmButton()
+    public void ConfirmButton() //when we hit the confirm button we make sure we did not let empty the inputField and we introduce then the player name in the scoreBoard
     {
         if(string.IsNullOrWhiteSpace(JBP_inputFieldUser.text) == false)
         {
@@ -84,7 +84,7 @@ public class JBP_UIManager : MonoBehaviour
         JBP_DataPersistence.name5 = currentNames[4];
         JBP_DataPersistence.SaveForFutureGames();
     }
-    public void UpdateHighScorePanel()
+    public void UpdateHighScorePanel() //we update the UI to show the new scoreBoard Updated
     {
         scoreRanks[0].text = JBP_DataPersistence.score1.ToString();
         playerNames[0].text = PlayerPrefs.GetString("name1", "-");
@@ -106,7 +106,7 @@ public class JBP_UIManager : MonoBehaviour
         playerNames[4].text = PlayerPrefs.GetString("name5", "-");
     }
 
-    public void ReturnButton()
+    public void ReturnButton() //let us to return to Menu once we have seen the ScoreBoard
     {
         SceneManager.LoadScene("JBP_Menu");
     }

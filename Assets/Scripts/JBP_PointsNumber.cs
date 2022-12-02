@@ -19,7 +19,7 @@ public class JBP_PointsNumber : MonoBehaviour
         scoreText.text = $"+{scorePoints.ToString()}";
     }
 
-    void Update()
+    void Update() //when this script is on scene the gameObject start to be smaller every frame and move up at the same time, doing a floating number to show the points earned
     {
         transform.position = new Vector3(transform.position.x, transform.position.y + verticalSpeed * Time.deltaTime, 0);
         transform.localScale *= 1 - Time.deltaTime / scaleFactor;

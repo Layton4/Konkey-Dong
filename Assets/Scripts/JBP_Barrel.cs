@@ -40,7 +40,6 @@ public class JBP_Barrel : MonoBehaviour
         if(otherCollider.gameObject.CompareTag("DestroyZone")) //When the barrel falls of the scenario and is out of screen we make disapear the barrel
         {
             Destroy(gameObject);
-            JBP_SpawnManagerScript.JBP_barrelsOnScene.Remove(gameObject);
         }
     }
 }
