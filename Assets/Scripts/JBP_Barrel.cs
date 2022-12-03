@@ -70,17 +70,6 @@ public class JBP_Barrel : MonoBehaviour
         }
     }
 
-    /*private void OnCollisionStay2D(Collision2D otherCollider)
-    {
-        if(otherCollider.gameObject.CompareTag("Ground"))
-        {
-            if (goDown)
-            {
-                gameObject.GetComponent<Collider2D>().isTrigger = true;
-            }
-        }
-    }*/
-
     private void OnTriggerExit2D(Collider2D otherCollider)
     {
         if (otherCollider.gameObject.CompareTag("downZone"))
