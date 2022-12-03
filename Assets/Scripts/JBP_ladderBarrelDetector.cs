@@ -15,8 +15,12 @@ public class JBP_ladderBarrelDetector : MonoBehaviour
     private void Update()
     {
         //BarrelsCheck2();
+        BarrelRandomRoute();
+
     }
-    
+
+
+
 
     public void BarrelsCheck2()
     {
@@ -45,5 +49,34 @@ public class JBP_ladderBarrelDetector : MonoBehaviour
         }
 
         Debug.DrawRay(ladderCollider.bounds.center + offset, Vector2.up * (ladderCollider.bounds.extents.y + extraHeight), rayColor);
+    }
+
+    public void BarrelRandomRoute()
+    {
+        float extraHeight = 0.2f;
+
+        Vector3 offset = new Vector3(-0.05f, 0, 0);
+
+        if (transform.rotation.y == 0)
+        {
+            offset = new Vector3(0.05f, 0, 0);
+        }
+
+        RaycastHit2D raycastHit = Physics2D.Raycast(ladderCollider.bounds.center + offset, Vector2.up, ladderCollider.bounds.extents.y + extraHeight, JBP_barrelLayer);
+        Color rayColor;
+        rayColor = Color.red;
+
+        if(raycastHit.collider != null && raycastHit.collider.gameObject.GetComponent<JBP_Barrel>().isDetected == false)
+        {
+            JBP_Barrel barrelScript = raycastHit.collider.gameObject.GetComponent<JBP_Barrel>();
+            barrelScript.randomRoute = Random.Range(0, 3);
+            
+            barrelScript.isDetected = true;
+            rayColor = Color.green;
+        }
+
+
+        Debug.DrawRay(ladderCollider.bounds.center + offset, Vector2.up * (ladderCollider.bounds.extents.y + extraHeight), rayColor);
+
     }
 }

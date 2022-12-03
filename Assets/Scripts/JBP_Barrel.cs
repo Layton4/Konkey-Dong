@@ -7,7 +7,7 @@ public class JBP_Barrel : MonoBehaviour
     private Collider2D barrelCollider;
     private Rigidbody2D barrelRigidbody;
     private float minspeed = 4f;
-    private float maxspeed = 5.5f;
+    private float maxspeed = 5f;
 
     private JBP_SpawnManager JBP_SpawnManagerScript;
     private JBP_GameManager JBP_gameManagerScript;
@@ -20,7 +20,7 @@ public class JBP_Barrel : MonoBehaviour
     public bool goDown;
     [SerializeField] private LayerMask JBP_laderDownLayer;
     public int randomRoute;
-    public bool shortRoute;
+    public bool isDetected;
 
     private Quaternion manteinRotation;
 
@@ -34,6 +34,7 @@ public class JBP_Barrel : MonoBehaviour
         JBP_SpawnManagerScript = GameObject.Find("JBP_SpawnManager").GetComponent<JBP_SpawnManager>();
         isJumped = false;
         goDown = false;
+
     }
 
     private void Update()
@@ -48,7 +49,9 @@ public class JBP_Barrel : MonoBehaviour
         gameObject.GetComponent<Collider2D>().isTrigger = goDown;
         if(randomRoute == 1)
         {
-            barrelRigidbody.velocity = Vector2.zero;
+            barrelRigidbody.velocity = new Vector2(0,barrelRigidbody.velocity.y);
+            goDown = true;
+            JBP_barrelAnimator.SetBool("isGoingDown", true);
             transform.rotation = manteinRotation;
         }
     }
@@ -59,8 +62,10 @@ public class JBP_Barrel : MonoBehaviour
         {
             
             float speed = Random.Range(minspeed, maxspeed);
+
+            //goDown = false;
             barrelRigidbody.AddForce(otherCollider.transform.right * speed, ForceMode2D.Impulse);
-            goDown = false;
+
             JBP_barrelAnimator.SetBool("isGoingDown", false); //we make sure to return to the default sprite of the barrel
         }
 
@@ -76,6 +81,8 @@ public class JBP_Barrel : MonoBehaviour
         {
             randomRoute = 0;
             goDown = false;
+            isDetected = false;
+
         }
     }
     public void StopBarrel()
