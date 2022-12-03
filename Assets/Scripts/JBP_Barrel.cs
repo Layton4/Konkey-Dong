@@ -22,6 +22,7 @@ public class JBP_Barrel : MonoBehaviour
     public int randomRoute;
     public bool shortRoute;
 
+    private Quaternion manteinRotation;
 
     private void Awake()
     {
@@ -45,40 +46,27 @@ public class JBP_Barrel : MonoBehaviour
         }
 
         gameObject.GetComponent<Collider2D>().isTrigger = goDown;
-        if(randomRoute == 1) { barrelRigidbody.velocity = Vector2.zero; }
+        if(randomRoute == 1)
+        {
+            barrelRigidbody.velocity = Vector2.zero;
+            transform.rotation = manteinRotation;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D otherCollider)
     {
         if(otherCollider.gameObject.CompareTag("Ground")) //When the barrel touch the ground is first impulsed with a bit of force to make it move and roll down with physics
         {
-            JBP_barrelAnimator.SetBool("isGoingDown", false); //we make sure to return to the default sprite of the barrel
-
+            
             float speed = Random.Range(minspeed, maxspeed);
             barrelRigidbody.AddForce(otherCollider.transform.right * speed, ForceMode2D.Impulse);
+            goDown = false;
+            JBP_barrelAnimator.SetBool("isGoingDown", false); //we make sure to return to the default sprite of the barrel
         }
 
         if(otherCollider.gameObject.CompareTag("DestroyZone")) //When the barrel falls of the scenario and is out of screen we make disapear the barrel
         {
             Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D otherCollider)
-    {
-        if(otherCollider.gameObject.CompareTag("downZone"))
-        {
-            //randomRoute = Random.Range(0, 2);
-           
-            
-            /*
-            if (randomRoute==1)
-            {
-                gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero; //we stop the barrrel
-            }*/
-
-            //goDown = true;
-            
         }
     }
 
@@ -97,34 +85,15 @@ public class JBP_Barrel : MonoBehaviour
     {
         if (otherCollider.gameObject.CompareTag("downZone"))
         {
+            randomRoute = 0;
             goDown = false;
         }
     }
-
-    private void CheckLadder()
+    public void StopBarrel()
     {
-        float extraHeight = 0.4f;
-        RaycastHit2D raycastHit = Physics2D.Raycast(barrelCollider.bounds.center, Vector2.down, barrelCollider.bounds.extents.y + extraHeight, JBP_laderDownLayer);
-
-        Color rayColor;
-
-        if (raycastHit.collider != null)
-        {
-            randomRoute = 0; //we make sure we just do this line once
-            rayColor = Color.green; //it turns green when it collides with the top part of a Ladder
-            
-            goDown = true; //make the boolean true to make it fall to the next floor through the ladder
-            JBP_barrelAnimator.SetBool("isGoingDown", true);
-
-        }
-        else
-        {
-            randomRoute = 0;
-            rayColor = Color.red;
-            goDown = false;
-        }
-
-        Debug.DrawRay(barrelCollider.bounds.center, Vector2.down * (barrelCollider.bounds.extents.y + extraHeight), rayColor);
+        //barrelRigidbody.velocity = Vector2.zero;
+        goDown = true;
+        JBP_barrelAnimator.SetBool("isGoingDown", true);
 
     }
 }

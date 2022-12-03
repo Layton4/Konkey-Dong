@@ -70,11 +70,10 @@ public class JBP_MenuManager: MonoBehaviour
         AutoSelectButtons[index].Select();
     }
 
-    public void ExitButton()
+    /*public void ExitButton()
     {
         Application.Quit();
-        EditorApplication.isPlaying = false;
-    }
+    }*/
 
     public void StartButton()
     {
