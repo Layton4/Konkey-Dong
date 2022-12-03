@@ -12,6 +12,7 @@ public class JBP_MenuManager: MonoBehaviour
     public GameObject[] panels;
     public Button[] AutoSelectButtons;
     public GameObject[] SelectionBarrels;
+    private float alphaValue;
 
     //Audio
     public Toggle MusicToggle;
@@ -33,14 +34,10 @@ public class JBP_MenuManager: MonoBehaviour
     }
     void Start()
     {
-        OpenPanel(0); //When we arrive to the menu we make sure to activate only the MenuPanel, the first element of the array
+        //OpenPanel(0); //When we arrive to the menu we make sure to activate only the MenuPanel, the first element of the array
+        StartCoroutine(InitialScreen());
         UpdateHighScoreBoard();
     }
-    void Update()
-    {
-        
-    }
-
     public void SelectButton(GameObject selectionImages)
     {
         selectionImages.SetActive(true);
@@ -137,6 +134,39 @@ public class JBP_MenuManager: MonoBehaviour
     public void TestSound()
     {
         audioManagerAudioSource.Play();
+    }
+
+    public IEnumerator InitialScreen()
+    {
+        alphaValue = 0;
+        panels[4].SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+
+        for (int i = 0; i < 10; i += 1)
+        {
+            alphaValue += 0.1f;
+            Color panelColor = panels[4].GetComponent<Image>().color;
+            panelColor.a = alphaValue;
+
+            panels[4].GetComponent<Image>().color = panelColor;
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        alphaValue = 1;
+
+        for (int i = 0; i < 10; i+=1)
+        {
+            alphaValue -= 0.1f;
+            Color panelColor = panels[4].GetComponent<Image>().color;
+            panelColor.a = alphaValue;
+
+            panels[4].GetComponent<Image>().color = panelColor;
+
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return new WaitForSeconds(0.2f);
+        OpenPanel(0);
     }
 
 }
