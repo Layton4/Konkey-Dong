@@ -198,8 +198,8 @@ public class JBP_PlayerController : MonoBehaviour
 
         if (otherCollider.gameObject.CompareTag("Barrel") && gameManagerScript.isGameover == false) //if the player collide with a barrel
         {
-            //DetectBarrelCollision();
-            //Destroy(otherCollider.gameObject); //we destroy the barrel
+            DetectBarrelCollision();
+            Destroy(otherCollider.gameObject); //we destroy the barrel
         }
 
     }
