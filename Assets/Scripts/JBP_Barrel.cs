@@ -63,6 +63,7 @@ public class JBP_Barrel : MonoBehaviour
             
             float speed = Random.Range(minspeed, maxspeed);
 
+            barrelRigidbody.velocity = Vector2.zero;
             //goDown = false;
             barrelRigidbody.AddForce(otherCollider.transform.right * speed, ForceMode2D.Impulse);
 

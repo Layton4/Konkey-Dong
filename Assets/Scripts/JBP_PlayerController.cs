@@ -181,12 +181,7 @@ public class JBP_PlayerController : MonoBehaviour
     {
         if(otherColider.gameObject.CompareTag("Barrel") && gameManagerScript.isGameover == false) //if the player collide with a barrel
         {
-            deadPosition = transform.position;
-            //gameManagerScript.isGameover = true; //we activate the gameover
-            marioAnimator.SetBool("isGameover", true); //change our sprite to the gameover sprite
-            StopAllCoroutines(); //the corroutine of attack is stopped
-            gameManagerScript.showGameOverPanel(true);
-            StartCoroutine(gameManagerScript.JBP_deadPlayer());
+            DetectBarrelCollision();
             Destroy(otherColider.gameObject); //we destroy the barrel
         }
     }
@@ -201,8 +196,23 @@ public class JBP_PlayerController : MonoBehaviour
 
         }
 
+        if (otherCollider.gameObject.CompareTag("Barrel") && gameManagerScript.isGameover == false) //if the player collide with a barrel
+        {
+            //DetectBarrelCollision();
+            //Destroy(otherCollider.gameObject); //we destroy the barrel
+        }
+
     }
 
+    private void DetectBarrelCollision()
+    {
+        deadPosition = transform.position;
+        //gameManagerScript.isGameover = true; //we activate the gameover
+        marioAnimator.SetBool("isGameover", true); //change our sprite to the gameover sprite
+        StopAllCoroutines(); //the corroutine of attack is stopped
+        gameManagerScript.showGameOverPanel(true);
+        StartCoroutine(gameManagerScript.JBP_deadPlayer());
+    }
 
     public bool BarrelJumped()
     {
